@@ -27,10 +27,10 @@ The project compares execution times and results from both the CPU and GPU for t
 - **Execution Time for Matrix Multiplication (GPU)**: 0.246748 seconds
 
 ### Analysis:
-- **Vector Addition**:
+**Vector Addition**:
 - On the CPU, the vector addition takes **0.020364 seconds**, while on the GPU it is completed much faster in **0.002819 seconds**. This shows a significant performance improvement when using the GPU for parallel tasks like vector addition.
 
-- **Matrix Multiplication**:
+**Matrix Multiplication**:
 - The GPU also demonstrates substantial improvement in matrix multiplication. The execution time on the GPU is **0.246748 seconds**, showing the advantage of using OpenCL to offload complex operations to the GPU.
 
 ### Conclusion:
