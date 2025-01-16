@@ -1,5 +1,7 @@
 import numpy as np
 import time
+import psutil
+import os
 
 def generate_random_data(size, dtype=np.float32):
     """Generate random vector or matrix data."""
@@ -18,35 +20,41 @@ def perform_matrix_operations(A, B, C):
     return matrix_product, matrix_sum
 
 def execute_cpu_operations():
-    """Execute all tasks on the CPU and return the results and execution time."""
-    N = 10**6  
+    """Execute all tasks on the CPU and return the results, execution time, and memory usage."""
+    N = 10**6
     a = generate_random_data(N)
     b = generate_random_data(N)
 
-    matrix_size = 1000 
+    matrix_size = 1000
     A = generate_random_data([matrix_size, matrix_size])
     B = generate_random_data([matrix_size, matrix_size])
     C = generate_random_data([matrix_size, matrix_size])
 
+    process = psutil.Process(os.getpid())
+    mem_before = process.memory_info().rss / (1024 ** 2)
+
     start_time_cpu = time.time()
 
-    # Perform vector and matrix operations
     c_cpu, dot_product = perform_vector_operations(a, b)
     matrix_product, matrix_sum = perform_matrix_operations(A, B, C)
 
     cpu_time = time.time() - start_time_cpu
 
-    return cpu_time, c_cpu, dot_product, matrix_sum, matrix_product
+    mem_after = process.memory_info().rss / (1024 ** 2)
 
-def print_results(cpu_time, c_cpu, dot_product, matrix_sum, matrix_product):
-    """Print the results of the computations and the execution time."""
+    memory_used = mem_after - mem_before
+
+    return cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used
+
+def print_results(cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used):
+    """Print the results of the computations, execution time, and memory usage."""
     print(f"Execution time on CPU: {cpu_time:.6f} seconds")
+    print(f"Memory used: {memory_used:.2f} MB")
     print(f"First element of the result (CPU): {c_cpu[0]}")
     print(f"Dot product (CPU): {dot_product}")
     print(f"Sum of elements of matrix C (CPU): {matrix_sum}")
     print(f"Dimensions of matrix product (CPU): {matrix_product.shape}")
 
 if __name__ == "__main__":
-    # Execute the operations and print the results
-    cpu_time, c_cpu, dot_product, matrix_sum, matrix_product = execute_cpu_operations()
-    print_results(cpu_time, c_cpu, dot_product, matrix_sum, matrix_product)
+    cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used = execute_cpu_operations()
+    print_results(cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used)
