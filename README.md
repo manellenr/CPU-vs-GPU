@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Parallel Computing Optimization with OpenCL: CPU vs GPU Comparison
 
 ## Project Description
@@ -102,26 +101,4 @@ To run the script on the GPU, use the following command:
 
 ```bash
 python script2.py
-=======
-Code for the Kaggle FIDE challenge: https://www.kaggle.com/competitions/fide-google-efficiency-chess-ai-challenge/overview
-
-**starter_agent.ipynb** notebook contains the code to: 
-- install the chess environment
-- run a chess game with two random agent
-- run a chess game with an agent defined in **main.py** against a random agent
-
-**main.py** defines an agent which returns a valid move when passed a board observation
-
-
-Competition submissions must contain a zip:
-
-**Submitting Multiple files:** \
-    (or compressing your main.py)
-Set up your directory structure like this:
-
-```
-kaggle_submissions/
-  main.py
-  <other files as desired>
->>>>>>> ce0f42b (Create README.md)
 ```
