@@ -2,103 +2,114 @@
 
 ## Project Description
 
-This project aims to optimize parallel computing using OpenCL by comparing the performance of CPU and GPU. The goal is to benchmark the execution times and compare the results of parallelized operations, particularly vector addition and matrix multiplication, on both the CPU and GPU. The project explores the advantages and limitations of using GPUs over CPUs for parallel computing tasks, demonstrating how OpenCL can harness the power of the GPU to accelerate computations.
+This project explores parallel computing optimization using OpenCL by comparing the performance of CPUs and GPUs. The primary objective is to benchmark execution times and analyze the results of parallelized operations, particularly vector addition and matrix multiplication, across these platforms. Additionally, the project integrates JAX to highlight its potential in handling computations efficiently.
 
 ## Results Comparison
 
-The project compares execution times and results from both the CPU and GPU for the following tasks:
-
-1. **Vector Addition**
-2. **Matrix Multiplication**
+The following sections present a detailed comparison of execution times and results from the CPU, and GPU for the tasks of vector addition and matrix multiplication:
 
 ### CPU Execution:
-- **Execution Time (CPU)**: 0.020364 seconds
-- **First Element of the Result (CPU)**: 1.5749485492706299
-- **Dot Product (CPU)**: 249832.609375
-- **Sum of Elements of Matrix C (CPU)**: 499851.65625
+- **Execution Time (CPU)**: 0.041265 seconds
+- **First Element of the Result (CPU)**: 1.2431153059005737
+- **Dot Product (CPU)**: 250172.578125
+- **Sum of Elements of Matrix C (CPU)**: 500552.40625
 - **Dimensions of Matrix Product (CPU)**: (1000, 1000)
 
-### GPU Execution:
-- **Execution Time (GPU)**: 0.002819 seconds
-- **First Element of the Result (GPU)**: 0.8182896971702576
-- **Matrix Multiplication Result (GPU)**:
-[[256.06723, 253.33173, 257.8729, 256.26053, 252.98824],
-[259.9033, 253.60698, 256.48236, 259.8866, 254.49777],
-[249.32741, 250.43523, 246.72261, 246.53496, 244.36371],
-[246.114, 239.43053, 240.40019, 237.2417, 234.24997],
-[246.22981, 246.51631, 248.73433, 250.04373, 243.39761]]
+### JAX Execution:
+- **Execution Time (JAX)**: 0.381864 seconds
+- **First Element of the Result (JAX)**: 1.8519272804260254
+- **Dot Product (JAX)**: 333363.65625
+- **Sum of Elements of Matrix C (JAX)**: 500243.84375
+- **Dimensions of Matrix Product (JAX)**: (1000, 1000)
 
-- **Execution Time for Matrix Multiplication (GPU)**: 0.246748 seconds
+### OpenCL Execution:
+- **Execution Time (OpenCL)**: 0.002819 seconds
+- **First Element of the Result (OpenCL)**: 0.8182896971702576
+- **Matrix Multiplication Result (OpenCL)**:
+  ```
+  [[256.06723, 253.33173, 257.8729, 256.26053, 252.98824],
+   [259.9033, 253.60698, 256.48236, 259.8866, 254.49777],
+   [249.32741, 250.43523, 246.72261, 246.53496, 244.36371],
+   [246.114, 239.43053, 240.40019, 237.2417, 234.24997],
+   [246.22981, 246.51631, 248.73433, 250.04373, 243.39761]]
+  ```
+- **Execution Time for Matrix Multiplication (OpenCL)**: 0.246748 seconds
 
-### Analysis:
-**Vector Addition**:
-- On the CPU, the vector addition takes **0.020364 seconds**, while on the GPU it is completed much faster in **0.002819 seconds**. This shows a significant performance improvement when using the GPU for parallel tasks like vector addition.
+## Analysis
 
-**Matrix Multiplication**:
-- The GPU also demonstrates substantial improvement in matrix multiplication. The execution time on the GPU is **0.246748 seconds**, showing the advantage of using OpenCL to offload complex operations to the GPU.
+### Vector Addition:
+- **CPU**: The execution time for vector addition on the CPU is **0.041265 seconds**.
+- **JAX**: Using JAX, the execution takes **0.381864 seconds**, indicating overhead due to JAX’s internal optimizations.
+- **OpenCL**: The GPU outperforms both, completing the operation in just **0.002819 seconds**, showcasing its efficiency in parallel tasks.
+
+### Matrix Multiplication:
+- **CPU**: Execution on the CPU takes **0.041265 seconds**.
+- **JAX**: Execution using JAX demonstrates its capability with a time of **0.381864 seconds**.
+- **OpenCL**: Matrix multiplication is significantly faster on the GPU with OpenCL, achieving an execution time of **0.246748 seconds**.
 
 ### Conclusion:
-Using the GPU with OpenCL for parallel computing offers a significant performance boost over the CPU, especially for large-scale tasks like vector addition and matrix multiplication. OpenCL efficiently harnesses the GPU's parallel processing capabilities, making it a powerful tool for optimizing computationally intensive tasks.
+- GPUs, powered by OpenCL, deliver a significant performance boost for parallel computing tasks such as vector addition and matrix multiplication compared to CPUs.
+- While JAX is not as fast as the OpenCL in this benchmark, it provides flexibility and ease of use for handling large-scale computations.
+- OpenCL effectively utilizes GPU parallelism, making it a compelling choice for optimization in computationally intensive scenarios.
 
 ## Installation
 
-To get started with this project, you'll need to have OpenCL installed and working on your machine. Below are the installation steps for different systems.
+### Prerequisites:
+- OpenCL installed and configured on your system.
+- Python 3.x installed.
 
 ### 1. Install OpenCL
 
-#### On Linux (Ubuntu)
-
+#### On Linux (Ubuntu):
 1. **Install OpenCL drivers and ICD loader:**
+   ```bash
+   sudo apt update
+   sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
+   ```
 
-  ```bash
-  sudo apt update
-  sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
-  ```
+2. **Install platform-specific drivers:**
+   - For Intel CPUs:
+     ```bash
+     sudo apt install intel-opencl-icd
+     ```
+   - For NVIDIA GPUs, install **CUDA drivers**.
+   - For AMD GPUs, install **ROCm**.
 
-2. **Install Intel OpenCL (if using Intel CPU):**
+3. **Verify OpenCL installation:**
+   ```bash
+   clinfo
+   ```
+   This command lists available OpenCL platforms and devices.
 
-  ```bash
-  sudo apt install intel-opencl-icd
-  ```
+### 2. Install Python Libraries
 
-  For **NVIDIA GPUs**, install **CUDA** drivers. For **AMD GPUs**, install **ROCm**.
+1. **Install PyOpenCL:**
+   ```bash
+   pip install pyopencl
+   ```
 
-3. **Install `clinfo` to verify OpenCL installation:**
-
-  ```bash
-  clinfo
-  ```
-
-  This should list the available OpenCL platforms and devices on your system.
-
-### 2. Install Python and PyOpenCL
-
-1. **Ensure you have Python 3 installed.**
-
-2. **Install PyOpenCL:**
-
-  You can install PyOpenCL using `pip`:
-
-  ```bash
-  pip install pyopencl
-  ```
+2. **Install JAX:**
+   ```bash
+   pip install jax
+   ```
 
 ## Running the Project
 
-Once you have OpenCL and PyOpenCL installed, you can run the scripts to compare the performance of CPU and GPU.
-
-### 1. CPU Execution
-
-To run the script on the CPU, use the following command:
-
+### CPU Execution:
+Run the script for CPU benchmarking:
 ```bash
-python script1.py
+python cpu_script.py
 ```
 
-### 2. GPU Execution
-
-To run the script on the GPU, use the following command:
-
+### GPU Execution (OpenCL):
+Run the script for GPU benchmarking:
 ```bash
-python script2.py
+python gpu_opencl.py
 ```
+
+### JAX Execution:
+Run the script for JAX benchmarking:
+```bash
+python gpu_jax.py
+```
+
