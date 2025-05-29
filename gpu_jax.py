@@ -5,7 +5,6 @@ import psutil
 import os
 
 def generate_random_data_jax(size, dtype=jnp.float32):
-    """Generate random vector or matrix data with JAX."""
     key = jax.random.PRNGKey(42)
     if isinstance(size, list):
         return jax.random.uniform(key, shape=tuple(size), dtype=dtype)
@@ -13,19 +12,16 @@ def generate_random_data_jax(size, dtype=jnp.float32):
         return jax.random.uniform(key, shape=(size,), dtype=dtype)
 
 def perform_vector_operations_jax(a, b):
-    """Perform vector addition and dot product using JAX."""
     vector_addition = a + b
     dot_product = jnp.dot(a, b)
     return vector_addition, dot_product
 
 def perform_matrix_operations_jax(A, B, C):
-    """Perform matrix multiplication and sum of elements using JAX."""
     matrix_product = jnp.dot(A, B)
     matrix_sum = jnp.sum(C)
     return matrix_product, matrix_sum
 
 def execute_jax_operations():
-    """Execute all tasks on JAX and return the results, execution time, and memory usage."""
     N = 10**6
     a = generate_random_data_jax(N)
     b = generate_random_data_jax(N)
@@ -51,7 +47,6 @@ def execute_jax_operations():
     return jax_time, c_jax, dot_product, matrix_sum, matrix_product, memory_used
 
 def print_results(jax_time, c_jax, dot_product, matrix_sum, matrix_product, memory_used):
-    """Print the results of the computations, execution time, and memory usage."""
     print(f"Execution time on JAX: {jax_time:.6f} seconds")
     print(f"Memory used: {memory_used:.2f} MB")
     print(f"First element of the result (JAX): {c_jax[0]}")
