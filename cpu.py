@@ -4,23 +4,19 @@ import psutil
 import os
 
 def generate_random_data(size, dtype=np.float32):
-    """Generate random vector or matrix data."""
     return np.random.rand(*size).astype(dtype) if isinstance(size, list) else np.random.rand(size).astype(dtype)
 
 def perform_vector_operations(a, b):
-    """Perform vector addition and dot product."""
     vector_addition = a + b
     dot_product = np.dot(a, b)
     return vector_addition, dot_product
 
 def perform_matrix_operations(A, B, C):
-    """Perform matrix multiplication and sum of elements."""
     matrix_product = np.dot(A, B)
     matrix_sum = np.sum(C)
     return matrix_product, matrix_sum
 
 def execute_cpu_operations():
-    """Execute all tasks on the CPU and return the results, execution time, and memory usage."""
     N = 10**6
     a = generate_random_data(N)
     b = generate_random_data(N)
@@ -47,7 +43,6 @@ def execute_cpu_operations():
     return cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used
 
 def print_results(cpu_time, c_cpu, dot_product, matrix_sum, matrix_product, memory_used):
-    """Print the results of the computations, execution time, and memory usage."""
     print(f"Execution time on CPU: {cpu_time:.6f} seconds")
     print(f"Memory used: {memory_used:.2f} MB")
     print(f"First element of the result (CPU): {c_cpu[0]}")
