@@ -5,7 +5,6 @@ import psutil
 import os
 
 def create_opencl_context():
-    """Create an OpenCL context and queue."""
     platform = cl.get_platforms()[0]
     device = platform.get_devices()[0]
     context = cl.Context([device])
@@ -13,11 +12,9 @@ def create_opencl_context():
     return context, queue
 
 def generate_random_data_opencl(size, dtype=np.float32):
-    """Generate random vector or matrix data."""
     return np.random.rand(*size).astype(dtype) if isinstance(size, list) else np.random.rand(size).astype(dtype)
 
 def perform_vector_operations_opencl(context, queue, a, b):
-    """Perform vector addition and dot product using OpenCL."""
     program_source = """
     __kernel void vector_add(__global const float* a, __global const float* b, __global float* c) {
         int idx = get_global_id(0);
@@ -52,7 +49,6 @@ def perform_vector_operations_opencl(context, queue, a, b):
     return c_result, dot_result[0]
 
 def perform_matrix_operations_opencl(context, queue, A, B, C):
-    """Perform matrix multiplication and sum of elements using OpenCL."""
     program_source = """
     __kernel void matrix_multiply(__global const float* A, __global const float* B, __global float* C, int N) {
         int row = get_global_id(0);
@@ -93,7 +89,6 @@ def perform_matrix_operations_opencl(context, queue, A, B, C):
     return C_result, matrix_sum[0]
 
 def execute_opencl_operations():
-    """Execute all tasks on OpenCL and return the results, execution time, and memory usage."""
     context, queue = create_opencl_context()
 
     N = 10**6
@@ -122,7 +117,6 @@ def execute_opencl_operations():
     return opencl_time, c_opencl, dot_product, matrix_sum, matrix_product, memory_used
 
 def print_results(opencl_time, c_opencl, dot_product, matrix_sum, matrix_product, memory_used):
-    """Print the results of the computations, execution time, and memory usage."""
     print(f"Execution time on OpenCL: {opencl_time:.6f} seconds")
     print(f"Memory used: {memory_used:.2f} MB")
     print(f"First element of the result (OpenCL): {c_opencl[0]}")
